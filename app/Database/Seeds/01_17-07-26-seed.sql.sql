@@ -1,4 +1,4 @@
-INSERT INTO enseignants (nom_enseignant, email) 
+INSERT INTO enseignant (nom_enseignant, email) 
 VALUES ('Mihoby', 'mihoby@gmail.com'),
        ('Rasoa', 'rasoa@gmail.com');
 
