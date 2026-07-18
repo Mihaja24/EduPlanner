@@ -1,7 +1,7 @@
 <h1><?= isset($cours) ? 'Modifier' : 'Ajouter' ?> un cours</h1>
 <?php if (session('errors')): ?>
     <ul class="errors">
-        <?php foreach (session('error') as $error): ?>
+        <?php foreach (session('errors') as $error): ?>
             <li><?= esc($error) ?></li>
         <?php endforeach; ?>
     </ul>
@@ -39,7 +39,7 @@
 
 
     <label for="filiere">Filière</label>
-    <select name="id_filiere" id="filiere">
+    <select name="id_filliere" id="filiere">
         <option value="">-- Choisir --</option>
         <?php foreach ($filieres as $f): ?>
             <option value="<?= esc($f['id_filliere']) ?>" <?= (old('id_filliere') ?? ($cours['id_filliere'] ?? null)) == $f['id_filliere'] ? 'selected' : '' ?>>
