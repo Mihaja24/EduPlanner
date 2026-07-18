@@ -16,6 +16,6 @@ class CoursController extends BaseController
             ->join('enseignant', 'cours.id_enseignant = enseignant.id')
             ->join('filliere', 'cours.id_filiere = filliere.id')
             ->findAll();
-        return view('admin/cours-list', ['cours' => $cours]);
+        return view('admin/cours_list', ['cours' => $cours]);
     }
 }
