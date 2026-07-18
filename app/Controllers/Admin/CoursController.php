@@ -5,6 +5,7 @@ use App\Controllers\BaseController;
 use App\Models\CoursModel;
 use App\Models\EnseignantModel;
 use App\Models\FiliereModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class CoursController extends BaseController
 {
@@ -24,7 +25,35 @@ class CoursController extends BaseController
             return redirect()->back()->withInput()->with('errors', $coursModel->errors());
         }
 
-        return redirect()->to('admin/cours_list');
+        return redirect()->to('admin/cours/cours_list');
+    }
+
+    public function edit($id)
+    {
+        $coursModel = new CoursModel();
+        $cours = $coursModel->find($id);
+
+        if (!$cours) {
+            throw PageNotFoundException::forPageNotFound();
+        }
+
+        return view('admin/cours_form', [
+            'cours' => $cours,
+            'enseignant' => (new EnseignantModel())->findAll(),
+            'filieres' => (new FiliereModel())->findAll()
+        ]);
+    }
+
+    public function update($id)
+    {
+        $coursModel = new CoursModel();
+        $data = $this->request->getRawInput();
+        if (!$coursModel->update($id, $data)) {
+            return redirect()->to()->withInput()->with('errors', $coursModel->errors());
+        }
+        
+        return redirect()->to('admin/cours/cours_list');
+
     }
 
     public function index()
@@ -37,6 +66,6 @@ class CoursController extends BaseController
             ->join('enseignant', 'cours.id_enseignant = enseignant.id')
             ->join('filliere', 'cours.id_filiere = filliere.id')
             ->findAll();
-        return view('admin/cours_list', ['cours' => $cours]);
+        return view('admin/cours/cours_list', ['cours' => $cours]);
     }
 }
