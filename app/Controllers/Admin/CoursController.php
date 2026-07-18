@@ -3,9 +3,30 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\CoursModel;
+use App\Models\EnseignantModel;
+use App\Models\FiliereModel;
 
 class CoursController extends BaseController
 {
+    public function new()
+    {
+        return view('admin/cours_form', [
+            'enseignants' => (new EnseignantModel())->findAll(),
+            'filieres' => (new FiliereModel())->findAll(),
+        ]);
+    }
+
+    public function create()
+    {
+        $coursModel = new CoursModel();
+
+        if (!$coursModel->save($this->request->getPost())) {
+            return redirect()->back()->withInput()->with('errors', $coursModel->errors());
+        }
+
+        return redirect()->to('admin/cours_list');
+    }
+
     public function index()
     {
         $coursModel = new CoursModel();
