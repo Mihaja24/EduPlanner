@@ -18,7 +18,7 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($les_Cours as $unCours): ?>
+            <?php foreach($les_cours as $unCours): ?>
                 <tr>
                     <td><?= esc($unCours['titre_cours']) ?></td>
                     <td><?= esc($unCours['volume_horaire'])?></td>

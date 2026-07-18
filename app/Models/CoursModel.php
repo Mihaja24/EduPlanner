@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class CoursModel extends Model 
 {
     protected $table = 'cours';
-    protected $primary_key = 'id_cours';
+    protected $primaryKey = 'id_cours';
 
     protected $allowedFields = [
         'titre_cours',
