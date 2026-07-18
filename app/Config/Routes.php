@@ -17,3 +17,8 @@ $routes->group('admin/cours', ['namespace' => 'App\Controllers\Admin'], static f
     $routes->put('update/(:num)', 'CoursController::update/$1');
     $routes->delete('delete/(:num)', 'CoursController::delete/$1');
 });
+
+$routes->group('api/cours', ['namespace' => 'App\Controllers\API'], static function($routes) {
+    $routes->get('/', 'CoursAPIController::index');
+    $routes->put('(:num)/volume-horaire', 'CoursAPIController::updateVolumeHoraire/$1');
+});
