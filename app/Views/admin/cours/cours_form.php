@@ -8,11 +8,11 @@
 <?php endif; ?>
 
 <form
-    action="<?= isset($cours) ? site_url('admin/cours/update' . $cours['id_cours']) : site_url('admin/cours/create') ?>"
+    action="<?= isset($cours) ? site_url('admin/cours/update/' . $cours['id_cours']) : site_url('admin/cours/create') ?>"
     method="post">
     <?php csrf_field() ?>
     <?php if (isset($cours)): ?>
-        <input type="hidden" name="_methode" value="PUT">
+        <input type="hidden" name="_method" value="PUT">
     <?php endif; ?>
 
     <label for="titre">Titre</label>

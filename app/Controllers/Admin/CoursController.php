@@ -11,7 +11,7 @@ class CoursController extends BaseController
 {
     public function new()
     {
-        return view('admin/cours_form', [
+        return view('admin/cours/cours_form', [
             'enseignants' => (new EnseignantModel())->findAll(),
             'filieres' => (new FiliereModel())->findAll(),
         ]);
@@ -25,7 +25,7 @@ class CoursController extends BaseController
             return redirect()->back()->withInput()->with('errors', $coursModel->errors());
         }
 
-        return redirect()->to('admin/cours/cours_list');
+        return redirect()->to('admin/cours')->with('success', 'Cours ajouté avec succès.');
     }
 
     public function edit($id)
@@ -37,9 +37,9 @@ class CoursController extends BaseController
             throw PageNotFoundException::forPageNotFound();
         }
 
-        return view('admin/cours_form', [
+        return view('admin/cours/cours_form', [
             'cours' => $cours,
-            'enseignant' => (new EnseignantModel())->findAll(),
+            'enseignants' => (new EnseignantModel())->findAll(),
             'filieres' => (new FiliereModel())->findAll()
         ]);
     }
@@ -48,24 +48,51 @@ class CoursController extends BaseController
     {
         $coursModel = new CoursModel();
         $data = $this->request->getRawInput();
-        if (!$coursModel->update($id, $data)) {
-            return redirect()->to()->withInput()->with('errors', $coursModel->errors());
-        }
-        
-        return redirect()->to('admin/cours/cours_list');
 
+        if (!$coursModel->update($id, $data)) {
+            return redirect()->back()->withInput()->with('errors', $coursModel->errors());
+        }
+
+        return redirect()->to('admin/cours')->with('success', 'Cours mis à jour avec succès.');
+    }
+
+    public function delete($id)
+    {
+        $coursModel = new CoursModel();
+        $cours = $coursModel->find($id);
+
+        if ($cours) {
+            $coursModel->delete($id);
+        }
+
+        return redirect()->to('admin/cours')->with('success', 'Cours supprimé avec succès.');
     }
 
     public function index()
     {
         $coursModel = new CoursModel();
+        $perPage = 10;
+        $page = max(1, (int) ($this->request->getGet('page') ?? 1));
+        $offset = ($page - 1) * $perPage;
 
-        $cours = $coursModel
-            ->select('cours.id_cours, cours.titre_cours, cours.volume_horaire, cours.coefficient,
-                            enseignant.nom_enseignant, filliere.nom_filliere')
-            ->join('enseignant', 'cours.id_enseignant = enseignant.id')
-            ->join('filliere', 'cours.id_filiere = filliere.id')
-            ->findAll();
-        return view('admin/cours/cours_list', ['cours' => $cours]);
+        $builder = $coursModel->builder();
+        $builder->select('cours.*, enseignant.nom_enseignant, filliere.nom_filliere')
+            ->join('enseignant', 'enseignant.id_enseignant = cours.id_enseignant', 'left')
+            ->join('filliere', 'filliere.id_filliere = cours.id_filliere', 'left');
+
+        $total = (int) $builder->countAllResults(false);
+        $rows = $builder->limit($perPage, $offset)->get()->getResultArray();
+
+        $totalPages = max(1, (int) ceil($total / $perPage));
+
+        return view('admin/cours/cours_list', [
+            'les_cours' => $rows,
+            'page' => $page,
+            'perPage' => $perPage,
+            'total' => $total,
+            'totalPages' => $totalPages,
+            'hasPrevious' => $page > 1,
+            'hasNext' => $page < $totalPages,
+        ]);
     }
 }
