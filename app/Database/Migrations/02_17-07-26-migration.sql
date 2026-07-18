@@ -7,7 +7,7 @@ CREATE TABLE cours (
     id_enseignant INTEGER NOT NULL,
     id_filliere INTEGER NOT NULL,
     FOREIGN KEY (id_enseignant) REFERENCES enseignant(id_enseignant) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_filliere) REFERENCES filiere(id_filliere) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (id_filliere) REFERENCES filliere(id_filliere) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE INDEX idx_cours_enseignant ON cours(id_enseignant);
 CREATE INDEX idx_cours_filiere ON cours(id_filliere);

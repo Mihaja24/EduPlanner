@@ -16,7 +16,7 @@ class CoursModel extends Model
     ];
 
     protected $validationRules = [
-        'titre_cours' => 'required|min_length[3]|max_length[100]',
+        'titre_cours' => 'required|min_length[3]max_length[100]',
         'volume_horaire' => 'required|integer',
         'coefficient' => 'required|decimal'
     ];

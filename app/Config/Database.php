@@ -57,7 +57,7 @@ class Database extends Config
         * @var array<string, mixed>
         */
        public array $default = [
-           'database'    => 'maBase.db',
+           'database'    => ROOTPATH . 'maBase.db',
            'DBDriver'    => 'SQLite3',
            'DBPrefix'    => '',
            'DBDebug'     => true,
