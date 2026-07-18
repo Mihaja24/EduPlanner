@@ -5,9 +5,9 @@ CREATE TABLE cours (
     volume_horaire INTEGER NOT NULL,
     coefficient DECIMAL(4, 2) NOT NULL DEFAULT 1.00,
     id_enseignant INTEGER NOT NULL,
-    id_filiere INTEGER NOT NULL,
+    id_filliere INTEGER NOT NULL,
     FOREIGN KEY (id_enseignant) REFERENCES enseignant(id_enseignant) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_filiere) REFERENCES filiere(id_filiere) ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (id_filliere) REFERENCES filiere(id_filliere) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 CREATE INDEX idx_cours_enseignant ON cours(id_enseignant);
-CREATE INDEX idx_cours_filiere ON cours(id_filiere);
+CREATE INDEX idx_cours_filiere ON cours(id_filliere);

@@ -6,6 +6,9 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+
+$routes->get('/cours_list', 'CoursControllers::index');
+
 $routes->group('admin/cours', ['namespace' => 'App\Controllers\Admin'], static function ($routes) {
     $routes->get('/', 'CoursController::index');
     $routes->get('new', 'CoursController::new');
